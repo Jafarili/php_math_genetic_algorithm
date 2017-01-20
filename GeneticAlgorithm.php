@@ -86,10 +86,15 @@ class GeneticAlgorithm
     }
 
     public function mutation(){
+
         $mutation_count = round((3 * 5) * $this->mutation_rate, 0, PHP_ROUND_HALF_DOWN);
+
         for ($i=0;$i<$mutation_count;$i++){
             $position = rand(1,(3 * 5));
-            $chossed_chrom = round($position / 3 , 0 , PHP_ROUND_HALF_UP) - 1;
+            $chosen_chromosome = round($position / 3 , 0 , PHP_ROUND_HALF_UP) - 1;
+            $chosen_gen = (3 * 5) - ($chosen_chromosome * 3);
+
+            $this->chromosome[$chosen_chromosome][$chosen_gen] = rand(0,10);
         }
     }
 }
