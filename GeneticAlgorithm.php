@@ -67,6 +67,7 @@ class GeneticAlgorithm
         var_dump($this->max_fitness);
 
         echo "<br>when finish finish_point is:".$finish_point;
+        echo "<br>".$this->chromosome[$finish_point][0] ." + (2*".$this->chromosome[$finish_point][1].") + (3*".$this->chromosome[$finish_point][2].") = 10";
     }
 
     public function calcFx(){
