@@ -21,6 +21,7 @@ class GeneticAlgorithm
     public $probability = array();
     public $cumulative_probability = array();
     public $crossover_rate = 0.25;
+    public $mutation_rate = 0.1;
     public $population = 200;
 
     public $total_fitness = 0;
@@ -82,5 +83,13 @@ class GeneticAlgorithm
     public function crossOver() {
         $iteration = 0;
         var_export($this->chromosome(1));
+    }
+
+    public function mutation(){
+        $mutation_count = round((3 * 5) * $this->mutation_rate, 0, PHP_ROUND_HALF_DOWN);
+        for ($i=0;$i<$mutation_count;$i++){
+            $position = rand(1,(3 * 5));
+            $chossed_chrom = round($position / 3 , 0 , PHP_ROUND_HALF_UP) - 1;
+        }
     }
 }
