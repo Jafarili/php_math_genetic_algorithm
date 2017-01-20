@@ -21,8 +21,9 @@ class GeneticAlgorithm
     public $probability = array();
     public $cumulative_probability = array();
     public $parents = array();
+    public $max_fitness = array();
 
-    public $crossover_rate = 0.35;
+    public $crossover_rate = 0.99;
     public $mutation_rate = 0.1;
     public $population = 200;
     public $iteration = 0;
@@ -31,12 +32,22 @@ class GeneticAlgorithm
     public function __construct()
     {
         for ($i=0;$i<5;$i++)
-            $this->chromosome[$i] = array(rand(0,10),rand(0,10),rand(0,10));
+            $this->chromosome[$i] = array(0=>rand(0,10),1=>rand(0,10),2=>rand(0,10));
 
-        for ($i=0;$i<$this->population;$i++) {
+        echo "init chromosome is:".json_encode($this->chromosome);
+
+        while ($this->iteration<$this->population) {
             $this->selection();
+
+            echo "<br>$this->iteration => selection chromosome is:".json_encode($this->chromosome);
+
             $this->crossOver();
+
+            echo "<br>$this->iteration => crossOver chromosome is:".json_encode($this->chromosome);
+
             $this->mutation();
+
+            echo "<br>$this->iteration => mutation chromosome is:".json_encode($this->chromosome);
 
             for ($i=0;$i<5;$i++)
                 if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10)
@@ -45,7 +56,10 @@ class GeneticAlgorithm
             $this->iteration++;
         }
 
-        var_dump($this->chromosome);
+        echo "<br>when finish chromosome is:".json_encode($this->chromosome);
+        echo "<br>when finish max_fitness is:".var_dump($this->max_fitness);
+
+        //var_dump($this->chromosome);
     }
 
     public function calcFx(){
@@ -77,7 +91,7 @@ class GeneticAlgorithm
         $this->calcFitness();
         $this->calcProbability();
 
-        $new_chromosome = array();
+        $new_chromosome = $this->chromosome;
         for ($i=0;$i<5;$i++) {
             $r[$i] = mt_rand() / mt_getrandmax();
 
@@ -104,15 +118,45 @@ class GeneticAlgorithm
             }
         }
 
-        for($n = 0 ; $n<count($this->parents) ; $n++) {
+        $length = count($this->parents);
+
+        foreach ($this->parents as $n) {
             $cut_position = rand(1,2);
 
-            $dady = array_slice($this->chromosome[$this->parents[$n]], 0, $cut_position);
-            $momy = array_slice($this->chromosome[$this->parents[$n]], 3-$cut_position);
+            $dady = array_slice($this->chromosome[$n], 0, $cut_position);
+
+            if($n+1 < $length) {
+                $momy = array_slice($this->chromosome[$n+1], $cut_position);
+            } else
+                $momy = array_slice($this->chromosome[0], $cut_position);
 
             $newChromosome = array_merge($dady , $momy);
 
-            $this->chromosome[$this->parents[$n]] = $newChromosome;
+            $this->chromosome[$n] = $newChromosome;
+        }
+        //var_export($this->chromosome);
+    }
+
+    /*public function crossOver() {
+        $this->parents = array();
+
+        for($m=0; $m<5 ; $m++) {
+            $random = mt_rand() / mt_getrandmax();
+            if($random < $this->crossover_rate) {
+                $this->parents[] = $m;
+            }
+        }
+
+        foreach ($this->parents as $n) {
+            $cut_position = rand(1,2);
+
+            $dady = array_slice($this->chromosome[$n], 0, $cut_position);
+            $momy = array_slice($this->chromosome[$n], $cut_position);
+
+            $newChromosome = array_merge($dady , $momy);
+
+            $this->chromosome[$n] = $newChromosome;
+        }
 
             // echo $this->chromosome[$this->parents[$n]];
             /*for($p = 0; $p < $cut; $p++) {
@@ -126,19 +170,18 @@ class GeneticAlgorithm
                 else
                     $newChromosome[$t] = $this->chromosome[$this->parents[$u]][$t];
             }
-            var_export($newChromosome);*/
+            var_export($newChromosome);
             // $this->chromosome[$this->parents[$n]] = ??
-        }
-    }
+    }*/
 
     public function mutation(){
 
-        $mutation_count = round((3 * 5) * $this->mutation_rate, 0, PHP_ROUND_HALF_DOWN);
+        $mutation_count = floor((3 * 5) * $this->mutation_rate);
 
         for ($i=0;$i<$mutation_count;$i++){
             $position = rand(1,(3 * 5));
-            $chosen_chromosome = round($position / 3 , 0 , PHP_ROUND_HALF_UP) - 1;
-            $chosen_gen = (3 * 5) - ($chosen_chromosome * 3);
+            $chosen_chromosome = ceil($position / 3) - 1;
+            $chosen_gen = ($position+2) % 3;
 
             $this->chromosome[$chosen_chromosome][$chosen_gen] = rand(0,10);
         }
