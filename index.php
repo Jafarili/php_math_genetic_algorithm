@@ -19,9 +19,9 @@ $result = $ga->maxFitness();
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Math Genetic Algorithm</title>
-    <link href="./examples.css" rel="stylesheet" type="text/css">
-    <script language="javascript" type="text/javascript" src="./jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="./jquery.flot.js"></script>
+    <link href="./assets/examples.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript" src="./assets/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="./assets/jquery.flot.js"></script>
     <script type="text/javascript">
 
         $(function() {
