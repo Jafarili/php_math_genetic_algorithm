@@ -12,4 +12,3 @@
 require_once "GeneticAlgorithm.php";
 
 $ga = new GeneticAlgorithm();
-echo $ga->crossOver();

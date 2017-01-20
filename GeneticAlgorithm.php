@@ -33,19 +33,19 @@ class GeneticAlgorithm
         for ($i=0;$i<5;$i++)
             $this->chromosome[$i] = array(rand(0,10),rand(0,10),rand(0,10));
 
-        // for ($i=0;$i<$this->population;$i++) {
-        //     $this->selection();
-        //     $this->crossOver();
-        //     $this->mutation();
+        for ($i=0;$i<$this->population;$i++) {
+            $this->selection();
+            $this->crossOver();
+            $this->mutation();
 
-        //     for ($i=0;$i<5;$i++)
-        //         if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10)
-        //             break;
+            for ($i=0;$i<5;$i++)
+                if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10)
+                    break;
 
-        //     $this->iteration++;
-        // }
+            $this->iteration++;
+        }
 
-        // var_dump($this->chromosome);
+        var_dump($this->chromosome);
     }
 
     public function calcFx(){
@@ -95,31 +95,40 @@ class GeneticAlgorithm
     }
 
     public function crossOver() {
-            $count = 0;
-            for($m=0; $m<5 ; $m++) {
-                $random[$m]=mt_rand() / mt_getrandmax();
-                if($random[$m] < $this->crossover_rate) {
-                    $this->parents[$count] = $m;
-                    $count++;
-                }
+        $this->parents = array();
+
+        for($m=0; $m<5 ; $m++) {
+            $random = mt_rand() / mt_getrandmax();
+            if($random < $this->crossover_rate) {
+                $this->parents[] = $m;
             }
-            for($n = 0 ; $n<$count ; $n++) {
-                $cut = rand(1,2);
-                // echo $this->chromosome[$this->parents[$n]];
-                for($p = 0; $p < $cut; $p++) {
-                    $newChromosome[$p] = $this->chromosome[$this->parents[$n]][$p];
-                }
-                for($t = $cut ;$t < count($this->chromosome[$this->parents[$n]]); $t++) {
-                    $u = $t + 1;
-                    if($u > $count) {
-                        $newChromosome[$t] = $this->chromosome[0][$t];
-                    }
-                    else
-                        $newChromosome[$t] = $this->chromosome[$this->parents[$u]][$t];
-                }
-                var_export($newChromosome);
-                // $this->chromosome[$this->parents[$n]] = ??
+        }
+
+        for($n = 0 ; $n<count($this->parents) ; $n++) {
+            $cut_position = rand(1,2);
+
+            $dady = array_slice($this->chromosome[$this->parents[$n]], 0, $cut_position);
+            $momy = array_slice($this->chromosome[$this->parents[$n]], 3-$cut_position);
+
+            $newChromosome = array_merge($dady , $momy);
+
+            $this->chromosome[$this->parents[$n]] = $newChromosome;
+
+            // echo $this->chromosome[$this->parents[$n]];
+            /*for($p = 0; $p < $cut; $p++) {
+                $newChromosome[$p] = $this->chromosome[$this->parents[$n]][$p];
             }
+            for($t = $cut ;$t < count($this->chromosome[$this->parents[$n]]); $t++) {
+                $u = $t + 1;
+                if($u > $count) {
+                    $newChromosome[$t] = $this->chromosome[0][$t];
+                }
+                else
+                    $newChromosome[$t] = $this->chromosome[$this->parents[$u]][$t];
+            }
+            var_export($newChromosome);*/
+            // $this->chromosome[$this->parents[$n]] = ??
+        }
     }
 
     public function mutation(){
