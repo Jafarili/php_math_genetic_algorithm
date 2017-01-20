@@ -28,29 +28,9 @@ class GeneticAlgorithm
         for ($i=0;$i<5;$i++)
             $this->chromosome[$i] = array(rand(0,10),rand(0,10),rand(0,10));
 
-        $this->calcFx();
+        $this->selection();
 
-        $this->calcFitness();
-        $this->calcProbability();
-
-        $new_chromosome = array();
-
-        for ($i=0;$i<5;$i++) {
-            $r[$i] = mt_rand() / mt_getrandmax();
-
-            for ($j=0;$j<5;$j++){
-                if ($j == 0) {
-                    if ($r[$i] < $this->cumulative_probability[0])
-                        $new_chromosome[$i] = $this->chromosome[0];
-                }else {
-                    if ($r[$i] > $this->cumulative_probability[$j - 1] && $r[$i] < $this->cumulative_probability[$j])
-                        $new_chromosome[$i] = $this->chromosome[$j];
-                }
-            }
-        }
-
-
-        var_dump($new_chromosome);
+        var_dump($this->chromosome);
     }
 
     public function calcFx(){
@@ -72,5 +52,28 @@ class GeneticAlgorithm
             $sum += $this->probability[$i];
             $this->cumulative_probability[$i] = $sum;
         }
+    }
+
+    public function selection(){
+        $this->calcFx();
+
+        $this->calcFitness();
+        $this->calcProbability();
+
+        $new_chromosome = array();
+        for ($i=0;$i<5;$i++) {
+            $r[$i] = mt_rand() / mt_getrandmax();
+
+            for ($j=0;$j<5;$j++){
+                if ($j == 0) {
+                    if ($r[$i] < $this->cumulative_probability[0])
+                        $new_chromosome[$i] = $this->chromosome[0];
+                }else {
+                    if ($r[$i] > $this->cumulative_probability[$j - 1] && $r[$i] < $this->cumulative_probability[$j])
+                        $new_chromosome[$i] = $this->chromosome[$j];
+                }
+            }
+        }
+        $this->chromosome = $new_chromosome;
     }
 }
