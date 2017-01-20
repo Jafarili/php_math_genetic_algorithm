@@ -33,7 +33,24 @@ class GeneticAlgorithm
         $this->calcFitness();
         $this->calcProbability();
 
-        var_dump($this->cumulative_probability);
+        $new_chromosome = array();
+
+        for ($i=0;$i<5;$i++) {
+            $r[$i] = mt_rand() / mt_getrandmax();
+
+            for ($j=0;$j<5;$j++){
+                if ($j == 0) {
+                    if ($r[$i] < $this->cumulative_probability[0])
+                        $new_chromosome[$i] = $this->chromosome[0];
+                }else {
+                    if ($r[$i] > $this->cumulative_probability[$j - 1] && $r[$i] < $this->cumulative_probability[$j])
+                        $new_chromosome[$i] = $this->chromosome[$j];
+                }
+            }
+        }
+
+
+        var_dump($new_chromosome);
     }
 
     public function calcFx(){
