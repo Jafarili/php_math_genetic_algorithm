@@ -18,6 +18,7 @@ class GeneticAlgorithm
     public $chromosome = array();
     public $fx = array();
     public $fitness = array();
+    public $total_fitness = 0;
 
     public function __construct()
     {
@@ -37,7 +38,9 @@ class GeneticAlgorithm
     }
 
     public function calcFitness(){
-        for ($i=0;$i<5;$i++)
-            $this->fitness[$i] = 1/(1+$this->fx[$i]);
+        for ($i=0;$i<5;$i++) {
+            $this->fitness[$i] = 1 / (1 + $this->fx[$i]);
+            $this->total_fitness += $this->fitness[$i];
+        }
     }
 }
