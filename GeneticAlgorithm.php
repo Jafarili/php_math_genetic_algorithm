@@ -38,13 +38,6 @@ class GeneticAlgorithm
         echo "init chromosome is:".json_encode($this->chromosome);
 
         while (is_null($finish_point) && $this->iteration < $this->population) {
-
-            for ($i = 0; $i < 5; $i++){
-                if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10) {
-                    $finish_point = $i;
-                }
-            }
-
             $this->selection();
 
             echo "<br>$this->iteration => selection chromosome is:" . json_encode($this->chromosome);
@@ -58,6 +51,14 @@ class GeneticAlgorithm
             echo "<br>$this->iteration => mutation chromosome is:" . json_encode($this->chromosome);
 
             $this->iteration++;
+
+            for ($i = 0; $i < 5; $i++){
+                if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10) {
+                    $finish_point = $i;
+                    $this->calcFx();
+                    $this->calcFitness();
+                }
+            }
         }
 
         echo "<br>when finish chromosome is:".json_encode($this->chromosome);
