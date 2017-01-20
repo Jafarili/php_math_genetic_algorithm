@@ -20,7 +20,12 @@ class GeneticAlgorithm
     public $fitness = array();
     public $probability = array();
     public $cumulative_probability = array();
+    public $parents = array();
 
+    public $crossover_rate = 0.25;
+    public $mutation_rate = 0.1;
+    public $population = 200;
+    public $iteration = 0;
     public $total_fitness = 0;
 
     public function __construct()
@@ -76,4 +81,32 @@ class GeneticAlgorithm
         }
         $this->chromosome = $new_chromosome;
     }
+
+    public function crossOver() {
+        while($this->iteration < $this->population) {
+            for($m=0; $m<4 ; $m++) {
+                $random[$m]=mt_rand() / mt_getrandmax();
+                if($random[$m] < $this->crossover_rate) {
+                    // $this->parents[$m] = $this->chromosome[$m];
+                    $ids = $m;
+                }
+            }
+            $cuts =
+            $this->iteration += 1;
+        }
+    }
+
+    public function mutation(){
+
+        $mutation_count = round((3 * 5) * $this->mutation_rate, 0, PHP_ROUND_HALF_DOWN);
+
+        for ($i=0;$i<$mutation_count;$i++){
+            $position = rand(1,(3 * 5));
+            $chosen_chromosome = round($position / 3 , 0 , PHP_ROUND_HALF_UP) - 1;
+            $chosen_gen = (3 * 5) - ($chosen_chromosome * 3);
+
+            $this->chromosome[$chosen_chromosome][$chosen_gen] = rand(0,10);
+        }
+    }
+
 }
