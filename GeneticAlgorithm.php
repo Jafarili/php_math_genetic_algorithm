@@ -23,7 +23,7 @@ class GeneticAlgorithm
     public $parents = array();
     public $max_fitness = array();
 
-    public $crossover_rate = 0.99;
+    public $crossover_rate = 0.5;
     public $mutation_rate = 0.1;
     public $population = 200;
     public $iteration = 0;
