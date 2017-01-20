@@ -90,7 +90,7 @@ class GeneticAlgorithm
                     $this->parents[$m] = $this->chromosome[$m];
                 }
             }
-            $this->$iteration += 1;
+            $this->iteration += 1;
         }
     }
 
