@@ -24,7 +24,7 @@ class GeneticAlgorithm
     public $max_fitness = array();
 
     public $crossover_rate = 0.5;
-    public $mutation_rate = 0.1;
+    public $mutation_rate = 0.2;
     public $population = 200;
     public $iteration = 0;
     public $total_fitness = 0;
@@ -40,7 +40,7 @@ class GeneticAlgorithm
         while (is_null($finish_point) && $this->iteration < $this->population) {
             $this->selection();
 
-            echo "<br>$this->iteration => selection chromosome is:" . json_encode($this->chromosome);
+            echo "<br><br>$this->iteration => selection chromosome is:" . json_encode($this->chromosome);
 
             $this->crossOver();
 
@@ -61,13 +61,16 @@ class GeneticAlgorithm
             }
         }
 
-        echo "<br>when finish chromosome is:".json_encode($this->chromosome);
+        echo "<br><br>when finish chromosome is:".json_encode($this->chromosome);
 
-        echo "<br>when finish max_fitness is:";
-        var_dump($this->max_fitness);
+        /*echo "<br>when finish max_fitness is:";
+        var_dump($this->max_fitness);*/
 
-        echo "<br>when finish finish_point is:".$finish_point;
-        echo "<br>".$this->chromosome[$finish_point][0] ." + (2*".$this->chromosome[$finish_point][1].") + (3*".$this->chromosome[$finish_point][2].") = 10";
+        //echo "<br>when finish finish_point is:".$finish_point;
+        if (is_null($finish_point))
+            echo "<br><br>No answer :(";
+        else
+            echo "<br><br>".$this->chromosome[$finish_point][0] ." + (2*".$this->chromosome[$finish_point][1].") + (3*".$this->chromosome[$finish_point][2].") = 10";
     }
 
     public function calcFx(){
