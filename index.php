@@ -9,3 +9,6 @@
  * Time: 13:39:58
  */
 
+require_once "GeneticAlgorithm.php";
+
+$ga = new GeneticAlgorithm();
