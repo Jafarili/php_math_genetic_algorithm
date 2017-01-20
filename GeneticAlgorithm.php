@@ -20,10 +20,12 @@ class GeneticAlgorithm
     public $fitness = array();
     public $probability = array();
     public $cumulative_probability = array();
+    public $parents = array();
+
     public $crossover_rate = 0.25;
     public $mutation_rate = 0.1;
     public $population = 200;
-
+    public $iteration = 0;
     public $total_fitness = 0;
 
     public function __construct()
@@ -81,8 +83,15 @@ class GeneticAlgorithm
     }
 
     public function crossOver() {
-        $iteration = 0;
-        var_export($this->chromosome(1));
+        while($this->iteration < $this->population) {
+            for($m=0; $m<4 ; $m++) {
+                $random[$m]=mt_rand() / mt_getrandmax();
+                if($random[$m] < $this->crossover_rate) {
+                    $this->parents[$m] = $this->chromosome[$m];
+                }
+            }
+            $this->$iteration += 1;
+        }
     }
 
     public function mutation(){
