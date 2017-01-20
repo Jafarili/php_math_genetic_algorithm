@@ -31,35 +31,40 @@ class GeneticAlgorithm
 
     public function __construct()
     {
+        $finish_point = null;
         for ($i=0;$i<5;$i++)
             $this->chromosome[$i] = array(0=>rand(0,10),1=>rand(0,10),2=>rand(0,10));
 
         echo "init chromosome is:".json_encode($this->chromosome);
 
-        while ($this->iteration<$this->population) {
+        while (is_null($finish_point) && $this->iteration < $this->population) {
             $this->selection();
 
-            echo "<br>$this->iteration => selection chromosome is:".json_encode($this->chromosome);
+            echo "<br>$this->iteration => selection chromosome is:" . json_encode($this->chromosome);
 
             $this->crossOver();
 
-            echo "<br>$this->iteration => crossOver chromosome is:".json_encode($this->chromosome);
+            echo "<br>$this->iteration => crossOver chromosome is:" . json_encode($this->chromosome);
 
             $this->mutation();
 
-            echo "<br>$this->iteration => mutation chromosome is:".json_encode($this->chromosome);
-
-            for ($i=0;$i<5;$i++)
-                if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10)
-                    break;
+            echo "<br>$this->iteration => mutation chromosome is:" . json_encode($this->chromosome);
 
             $this->iteration++;
+
+            for ($i = 0; $i < 5; $i++){
+                if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10) {
+                    $finish_point = $i;
+                }
+            }
         }
 
         echo "<br>when finish chromosome is:".json_encode($this->chromosome);
-        echo "<br>when finish max_fitness is:".var_dump($this->max_fitness);
 
-        //var_dump($this->chromosome);
+        echo "<br>when finish max_fitness is:";
+        var_dump($this->max_fitness);
+
+        echo "<br>when finish finish_point is:".$finish_point;
     }
 
     public function calcFx(){
