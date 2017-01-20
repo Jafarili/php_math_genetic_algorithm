@@ -20,9 +20,6 @@ class GeneticAlgorithm
     public $fitness = array();
     public $probability = array();
     public $cumulative_probability = array();
-    public $crossover_rate = 0.25;
-    public $mutation_rate = 0.1;
-    public $population = 200;
 
     public $total_fitness = 0;
 
@@ -31,9 +28,12 @@ class GeneticAlgorithm
         for ($i=0;$i<5;$i++)
             $this->chromosome[$i] = array(rand(0,10),rand(0,10),rand(0,10));
 
-        $this->selection();
+        $this->calcFx();
 
-        var_dump($this->chromosome);
+        $this->calcFitness();
+        $this->calcProbability();
+
+        var_dump($this->cumulative_probability);
     }
 
     public function calcFx(){
@@ -54,47 +54,6 @@ class GeneticAlgorithm
             $this->probability[$i] = $this->fitness[$i] / $this->total_fitness;
             $sum += $this->probability[$i];
             $this->cumulative_probability[$i] = $sum;
-        }
-    }
-
-    public function selection(){
-        $this->calcFx();
-
-        $this->calcFitness();
-        $this->calcProbability();
-
-        $new_chromosome = array();
-        for ($i=0;$i<5;$i++) {
-            $r[$i] = mt_rand() / mt_getrandmax();
-
-            for ($j=0;$j<5;$j++){
-                if ($j == 0) {
-                    if ($r[$i] < $this->cumulative_probability[0])
-                        $new_chromosome[$i] = $this->chromosome[0];
-                }else {
-                    if ($r[$i] > $this->cumulative_probability[$j - 1] && $r[$i] < $this->cumulative_probability[$j])
-                        $new_chromosome[$i] = $this->chromosome[$j];
-                }
-            }
-        }
-        $this->chromosome = $new_chromosome;
-    }
-
-    public function crossOver() {
-        $iteration = 0;
-        var_export($this->chromosome(1));
-    }
-
-    public function mutation(){
-
-        $mutation_count = round((3 * 5) * $this->mutation_rate, 0, PHP_ROUND_HALF_DOWN);
-
-        for ($i=0;$i<$mutation_count;$i++){
-            $position = rand(1,(3 * 5));
-            $chosen_chromosome = round($position / 3 , 0 , PHP_ROUND_HALF_UP) - 1;
-            $chosen_gen = (3 * 5) - ($chosen_chromosome * 3);
-
-            $this->chromosome[$chosen_chromosome][$chosen_gen] = rand(0,10);
         }
     }
 }
