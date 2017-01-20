@@ -84,6 +84,9 @@ class GeneticAlgorithm
         }
     }
 
+    public function maxFitness() {
+        return $this->max_fitness;
+    }
     public function calcProbability(){
         $sum = 0;
         for ($i=0;$i<5;$i++) {

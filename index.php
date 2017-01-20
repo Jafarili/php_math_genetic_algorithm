@@ -12,3 +12,6 @@
 require_once "GeneticAlgorithm.php";
 
 $ga = new GeneticAlgorithm();
+echo "<br>";
+$result = $ga->maxFitness();
+echo count($result);
