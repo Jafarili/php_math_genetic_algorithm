@@ -87,9 +87,11 @@ class GeneticAlgorithm
             for($m=0; $m<4 ; $m++) {
                 $random[$m]=mt_rand() / mt_getrandmax();
                 if($random[$m] < $this->crossover_rate) {
-                    $this->parents[$m] = $this->chromosome[$m];
+                    // $this->parents[$m] = $this->chromosome[$m];
+                    $ids = $m;
                 }
             }
+            $cuts =
             $this->iteration += 1;
         }
     }
