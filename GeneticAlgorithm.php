@@ -21,6 +21,7 @@ class GeneticAlgorithm
     public $probability = array();
     public $cumulative_probability = array();
     public $parents = array();
+    public $max_fitness = array();
 
     public $crossover_rate = 0.25;
     public $mutation_rate = 0.1;
@@ -33,7 +34,17 @@ class GeneticAlgorithm
         for ($i=0;$i<5;$i++)
             $this->chromosome[$i] = array(rand(0,10),rand(0,10),rand(0,10));
 
-        $this->selection();
+        for ($i=0;$i<$this->population;$i++) {
+            $this->selection();
+            $this->crossOver();
+            $this->mutation();
+
+            for ($i=0;$i<5;$i++)
+                if ($this->chromosome[$i][0] + 2 * $this->chromosome[$i][1] + 3 * $this->chromosome[$i][2] == 10)
+                    break;
+
+            $this->iteration++;
+        }
 
         var_dump($this->chromosome);
     }
@@ -46,6 +57,8 @@ class GeneticAlgorithm
     public function calcFitness(){
         for ($i=0;$i<5;$i++) {
             $this->fitness[$i] = 1 / (1 + $this->fx[$i]);
+            if ( !isset($this->max_fitness[$this->iteration]) || ($this->fitness[$i] >  $this->max_fitness[$this->iteration]))
+                $this->max_fitness[$this->iteration] = $this->fitness[$i];
             $this->total_fitness += $this->fitness[$i];
         }
     }
