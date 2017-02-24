@@ -1,6 +1,8 @@
 Solving a simple mathematical equation using Genetic Algorithm in php
 
-Basic Philosophy
+
+Basic Philosophy:
+
 Genetic algorithm developed by Goldberg was inspired by Darwin's theory of evolution which states that
 the survival of an organism is affected by rule "the strongest species that survives". Darwin also stated
 that the survival of an organism can be maintained through the process of reproduction, crossover and
